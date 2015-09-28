@@ -1,0 +1,65 @@
+
+<div class="container-fluid">
+	<%= render 'common/navbar' %>
+</div>
+
+<div class="container-fluid">
+	<%= link_to 'Back', event_auctions_path(@event) %>
+	<h1>Auction</h1>
+</div>
+<div class="container-fluid">
+	<div class="row">
+			<div class="col-md-4">
+				<table>
+					<tr>	
+						  <ul class="list-group">
+						  	<% if @auction.status && @auction.status == 'OPEN' %>
+						  		<li class="list-group-item" > <strong class="greenbgcolor">Status:  <%= @auction.status %></strong></li>
+						  	<% end %>
+						  	<% if @auction.status && @auction.status == 'CLOSED' %>
+						  		<li class="list-group-item"> <strong class="redbgcolor">Status:  <%= @auction.status %></strong></li>
+						  	<% end %>
+						    <li class="list-group-item"> <strong>Name : </strong> <%= @auction.name %></li>
+						    <li class="list-group-item"> <strong>Description : </strong> <%= @auction.description %></li>
+						  </ul>
+					</tr>
+				</table>
+		</div>
+		<%= form_for ([@event, @auction]),:html => {:class => "form-horizontal center"} do |f|%>
+			<div class="col-md-8">
+				<div class="table-responsive">
+					<button id="saveBids">Save Bids</button> 
+					 <table id="bidsTable" class="table table-striped">
+					 	<tbody>
+
+						<tr>
+							<th> - </th>
+							<th>Bid Number</th>
+							<th>Bid Amount</th>
+							<th>Winner</th>
+						</tr>
+						<% bid_count = 0%>
+						<% @bids.each do |bid| %>
+							<% bid_count = bid_count + 1 %>
+							<% rowId = "bid_row_id_"+bid_count.to_s %>
+							<% remove_bid_row_id = "remove_bid_row_id"+bid_count.to_s %>
+								<tr id=<%rowId%>>
+									<td><%= link_to '-' , [bid.auction, bid] , method: :delete, data: {confirm: 'Are you sure?' } %></td>
+									<td><input value=<%= bid.bid_number %> disabled></input></td>
+									<td><input value=<%= bid.bid_amount %> disabled></input></td>
+									<td><%= bid.is_winner %></td>
+								</tr>
+						<% end %>
+					</tbody>
+					</table>
+					<input id="bid_count" name="auction[bid_count]" type="hidden" value=<%= bid_count %>></input>
+					<input id="bid_update" name="auction[bid_update]" type="hidden" value="TRUE"></input>
+					<% if @auction.status && @auction.status == 'OPEN' %>
+					<a id="addBid"> + Add Bid</a>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>
+

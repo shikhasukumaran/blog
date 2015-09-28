@@ -1,0 +1,26 @@
+
+<p>
+  <strong>Title:</strong>
+  <%= @article.title %>
+</p>
+ 
+<p>
+  <strong>Text:</strong>
+  <%= @article.text %>
+</p>
+
+<h2> Add a comment </h2>
+
+<%= form_for @comment do |f| %>
+
+	<%= f.label :commenter %>
+	<%= f.text_field  :commenter %>
+	
+	<%= f.label :body %>
+	<%= f.text_area  :body %>
+	
+	<%= f.submit %>
+<% end %>
+
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Back', articles_path %>

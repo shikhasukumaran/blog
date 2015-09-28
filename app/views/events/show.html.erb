@@ -1,0 +1,16 @@
+<div class="container-fluid">
+	<%= render 'common/navbar' %>
+</div>
+
+<h1>Event</h1>
+<div class="row">
+<div class="col-sm-6">
+  <ul class="list-group">
+    <li class="list-group-item"> <strong>Title : </strong> <%= @event.title %></li>
+    <li class="list-group-item"> <strong>Description : </strong> <%= @event.description %></li>
+    <li class="list-group-item"><%= link_to 'Auctions in the Event', (event_auctions_path(@event)) %></li>
+    <li class="list-group-item"><%= link_to 'Guests in the Event', (event_guests_path(@event)) %></li>
+  </ul>
+</div><!-- /.col-sm-4 -->
+</div>
+<%= link_to 'Back', events_path %>

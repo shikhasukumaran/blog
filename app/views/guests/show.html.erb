@@ -1,0 +1,50 @@
+<div class="container-fluid">
+	<%= render 'common/navbar' %>
+</div>
+
+<p>
+  <strong>First Name:</strong>
+  <%= @guest.first_name %>
+</p>
+ 
+<p>
+  <strong>Middle Name:</strong>
+  <%= @guest.middle_name %>
+</p>
+<p>
+  <strong>Last Name:</strong>
+  <%= @guest.last_name %>
+</p>
+<p>
+  <strong>Billing Address Line1:</strong>
+  <%= @guest.billing_address_1 %>
+</p>
+<p>
+  <strong>Billing Address Line2:</strong>
+  <%= @guest.billing_address_1 %>
+</p>
+<p>
+  <strong>Email:</strong>
+  <%= @guest.email %>
+</p>
+<p>
+  <strong>Phone Number:</strong>
+  <%= @guest.phone_number%>
+</p>
+<p>
+  <strong>Dinner Tickets:</strong>
+  <%= @guest.dinner_tickets %>
+</p>
+<p>
+  <strong>Table Number:</strong>
+  <%= @guest.table_number %>
+</p>
+<p>
+  <strong>Registration:</strong>
+  <%= @guest.registration %>
+</p>
+<p>
+  <strong>Registration:</strong>
+  <%= @guest.status %>
+</p>
+<%= link_to 'Back', guests_path %>

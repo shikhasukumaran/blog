@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  winningBidNumber: MyString
+  winningBidAmount: 
+  precision: 
+  scale: 
+  isPayable: false
+
+two:
+  winningBidNumber: MyString
+  winningBidAmount: 
+  precision: 
+  scale: 
+  isPayable: false

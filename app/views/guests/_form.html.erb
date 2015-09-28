@@ -1,0 +1,82 @@
+<%= form_for  @guest ,:html => {:class => "form-horizontal center"} do |f|%>
+
+	<% if @guest && @guest.errors.any? %>
+		<div id="error_explanation">
+			<h2>
+				<%= pluralize(@guest.errors.count, "error") %> prohibited this guest from being saved:
+			</h2>
+			<ul>
+				<% @guest.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+	<div class="form-group">
+			<%= f.label :first_name, class: "col-md-4 control-label"%>
+			<div class="col-md-8">
+			<%= f.text_field :first_name %>
+			</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :middle_name, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :middle_name %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :last_name, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :last_name %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :billing_address_1, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :billing_address_1 %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :billing_address_2, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :billing_address_2 %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :email, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :email %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :phone_number, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :phone_number %>
+		</div>
+	</div>
+		<div class="form-group">
+		<%= f.label :bid_number, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :bid_number %>
+		</div>
+	</div>
+		<div class="form-group">
+		<%= f.label :dinner_tickets, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :dinner_tickets %>
+		</div>
+	</div>
+	</div>
+		<div class="form-group">
+		<%= f.label :table_number, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :table_number %>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-md-8">
+			<%= f.submit "Submit", class: "btn btn-default btn-primary"%>
+		</div>
+	</div>
+
+<% end %>

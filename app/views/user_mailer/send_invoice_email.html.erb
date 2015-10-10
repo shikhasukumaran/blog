@@ -5,33 +5,30 @@
   </head>
   <body>
 
+<div align="center">
+	<p><h3>The Shelter Board</h3></p>
+	<p><h3>Harvest Dinner And Silent Auction</h3></p>
+</div>
+<div align="center">
+  <p style="background-color:lightgrey"> Bidder No # <%= @bid_number.bid_number %></p>
+</div>
+<div align="right">
+ <p> Generated At : <%= Time.parse(@invoice.created_at.to_s).in_time_zone("Pacific Time (US & Canada)") %></p>
+</div>
 <div class="container-fluid">
 <div class="row">
-  <table>
-  <tr>
-  <td width="50%">
   <div>
-  <p> Bidder No : <%= @bid_number.bid_number %></p>
-  <p> Invoice id  : <%= @invoice.id %></p>
-  <p> Version : <%= @invoice.version %></p>
-  <p> Created At : <%= Time.parse(@invoice.created_at.to_s).in_time_zone("Pacific Time (US & Canada)") %></p>
-  </div>
-  </td>
-  <td width="50%">
-  <div>
-      <p><strong> Guests </strong></p>
+      <p style="background-color:lightgrey"><strong> Guests </strong></p>
       <% guests_with_registration = [] %>
       <% @guests = get_guests_with_bid_number(@bid_number.bid_number) %>
       <% @guests.each do |guest| %>
-        <p><%= link_to guest.first_name + " " +guest.last_name  , [guest.event, guest] %></p>
+        <p><strong><%= guest.first_name + " " +guest.last_name %></strong></p>
         <% if !guest.dinner_tickets.blank? 
             guests_with_registration << guest
            end        
          end 
       %>
   </div>
- </td>
- </tr>
 </div>
 </div>
 <% total_purchase = 0 %>
@@ -51,18 +48,21 @@
     <th>Quantity Purchased</th>
     <th>Purchase Price</th>
     <th>Fair Market Value</th>
-    <th>Charitable Contribution</th>
+    <th>Charitable Donation</th>
   </tr>
+  <tr><td>-------------------</td></tr>
   <!-- Donation part of Invoice -->
   <% if !donated_auctions.blank? %>
     <tr><td>Donation<td></tr>
+    <% donation_count = 0%>
     <% donated_auctions.each do |da| %>
-      <tr>
-        <td></td>
+    <% donation_count += 1%>
+      <tr align="right">
+        <td>#<%= donation_count%></td>
         <td><%= da.name %></td>
         <td></td>
         <td></td>
-        <td></td>
+        <td><%= da.fair_market_value %></td>
         <td><%= da.fair_market_value %></td>
       </tr>
       <% total_charity_cont += da.fair_market_value %>
@@ -77,8 +77,8 @@
   <%
       guests_with_registration.each do |guest_with_registration| 
   %>
-        <tr>
-          <td>1</td>
+        <tr align="right">
+          <td></td>
           <td></td>
           <td><%= guest_with_registration.dinner_tickets %></td>
           <td>$<%= guest_with_registration.registration_fee %></td>
@@ -90,7 +90,6 @@
       end
     end
   %>
-  <tr><td>-------------------</td></tr>
   <!-- Item Purchase | Merchandise | Fund A Need-->
   <%
     invoice_items_by_auction_type = get_invoice_entries_by_auction_type(@invoice.id)
@@ -114,8 +113,8 @@
           total_amount_due += invoice_item.bid_amount 
           total_charity_cont += charitable_cont 
   %>  
-          <tr>
-              <td><%= item_count %></td>
+          <tr align="right">
+              <td>#<%= item_count %></td>
               <td><%= auction.name%></td>
               <td><%= invoice_item.quantity_purchased %></td>
               <td>$<%= invoice_item.bid_amount %></td>
@@ -125,7 +124,9 @@
           <% end %>
       <% end %>
   <% end %>
-  <tr>
+
+  <tr><td>-------------------</td></tr>     
+  <tr align="right">
     <td></td> <!-- Type -->
     <td></td>
     <td>Overall Totals</td> <!-- Auction Name -->
@@ -133,32 +134,29 @@
     <td></td> <!-- Total Purchase Price -->
     <td>$<%= total_charity_cont%></td> <!-- Total Charitable Contribution -->
   </tr>
-  <tr>
+  <tr><td></td></tr>
+  <tr><td></td></tr>
+  <tr style="background-color:lightgrey" align="right">
     <td></td> <!-- Type -->
     <td></td>
     <td><strong>Total Purchase</strong></td> <!-- Auction Name -->
     <td>$<%= total_purchase %></td> <!-- Total Purchase Price -->
-    <td>$<strong>Total Charitable Cont</strong></td> <!-- Total Purchase Price -->
+    <td><strong>Total Charitable Contribution</strong></td> <!-- Total Purchase Price -->
     <td>$<%= total_charity_cont%></td> <!-- Total Charitable Contribution -->
-  </tr>
-  <!-- Totals part of the invoice, Change color based on status if paid or not -->
-  <tr><td></td></tr>
-  <tr><td></td></tr>
-  <tr class="greenbgcolor">
-    <td></td>
-    <td></td>
-    <td><strong>Total Due</strong></td>
-    <td><strong>$<%= total_amount_due %></strong></td>
-    <td></td>
-  </tr>
-  <tr class="greenbgcolor">
-    <td></td>
-    <td></td>
-    <td><strong>Total Due After Fee Adjustment</strong></td>
-    <td><strong>$<%= total_amount_due - float_or_zero(@bid_number.fee_adjustment) %></strong></td>
-    <td></td>
   </tr>
 </table>
 </div>
+<div  style="background-color:lightgrey" align="center">
+	<h6>SHARE - working to eradicate homelessness, educate the community and empower homeless people since 1990.</h6>
+</div>
+<div align="right">
+		<p><font size="2">Federal Tax ID # 91-1577965</font></p>
+</div>
+<div>
+	<p><font size="2">The Shelter Board</font></p>
+	<p><font size="2">12727 Evanston Ave N</font></p>
+	<p><font size="2">Seattle, WA</font></p>
+</div>
+
  </body>
 </html>

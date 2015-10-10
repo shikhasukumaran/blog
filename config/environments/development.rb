@@ -34,16 +34,14 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.delivery_method = :smtp
   # SMTP settings for gmail
-  config.action_mailer.sendmail_settings = {
-   :address              => "smtp.gmail.com",
+  config.action_mailer.smtp_settings = {
+   :address              => "smtp.mandrillapp.com",
    :port                 => 587,
-   :domain               => "gmail.com"
-   :user_name            => ENV['gmail_username'],
-   :password             => ENV['gmail_password'],
+   :user_name            => "shikha.sukumaran@gmail.com",
+   :password             => "ARYFTQydJGMImlPT-7Q_Yg",
    :authentication       => "plain",
    :enable_starttls_auto => true
   }
-
 end

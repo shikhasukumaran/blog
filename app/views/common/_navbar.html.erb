@@ -7,16 +7,20 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="http://localhost:3000">Share</a>
+
+          <% my_url = "http://localhost:3000" %>
+          <a class="navbar-brand" href=<%=my_url%>>Share</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
           </form>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="http://localhost:3000/events">Events</a></li>
-            <li><a href="http://localhost:3000/guests">Guests</a></li>
-            <li><a href="http://localhost:3000/invoices">Invoice</a></li>
+
+            <li><a href=<%=my_url + "/events" %>>Events</a></li>
+            <li><a href=<%=my_url+"/events/1/guests"%>>Guests</a></li>
+            <li><a href=<%=my_url+"/events/1/auctions"%>>Auctions</a></li>
+            <li><a href=<%=my_url+"/events/1/bid_numbers"%>>Bid Numbers</a></li>
           </ul>
         </div>
       </div>

@@ -67,7 +67,8 @@ def update
     if params[:invoice][:status] == "PAID_EMAILED"
     	@bid_number.event_due_pay_status = "PAID"
     	@bid_number.invoice_email_status = "EMAILED"
-    	UserMailer.send_invoice_email(@invoice).deliver
+    	#UserMailer.send_invoice_email(@invoice).deliver
+    	#UserMailer.send_test_email
     end
     if params[:invoice][:status] == "NONE"
     	@bid_number.event_due_pay_status = nil

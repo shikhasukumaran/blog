@@ -48,7 +48,7 @@
     <th>Quantity Purchased</th>
     <th>Purchase Price</th>
     <th>Fair Market Value</th>
-    <th>Charitable Contribution</th>
+    <th>Charitable Donation</th>
   </tr>
   <!-- Donation part of Invoice -->
   <% if !donated_auctions.blank? %>
@@ -59,7 +59,7 @@
         <td><%= da.name %></td>
         <td></td>
         <td></td>
-        <td></td>
+        <td><%= da.fair_market_value %></td>
         <td><%= da.fair_market_value %></td>
       </tr>
       <% total_charity_cont += da.fair_market_value %>

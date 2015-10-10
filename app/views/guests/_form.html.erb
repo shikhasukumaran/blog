@@ -106,7 +106,7 @@
 		<%= f.label :registration_status, class: "col-md-4 control-label"%>
 		<div class="col-md-8">
 			<%= f.select(:registration_status) do %>
-	 			 <% [['PAID','PAID'],['NOT_PAID','NOT_PAID']].each do |c| -%>
+	 			 <% [['PAID','PAID'],['UNPAID','UNPAID'],['COMPED','COMPED']].each do |c| -%>
 		 			 	<% if @guest && @guest.registration_status == c.first %>
 		    		 		<%= content_tag(:option, c.first, value: c.last, selected: true) %>
 		    		 	<% else %>

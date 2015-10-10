@@ -1,8 +1,9 @@
 require 'digest/sha2' 
+#require 'rest_client'
 
 class UserMailer < ActionMailer::Base
-  default from: "Mailgun Sandbox <postmaster@sandbox1f3e6d7e4fd842f3b45f2146a4498f34.mailgun.org"
-  default "Message-ID"=>"#{Digest::SHA2.hexdigest(Time.now.to_i.to_s)}@gmail.com"
+  default from: "shelterboard13@gmail.com"
+ # default "Message-ID"=>"#{Digest::SHA2.hexdigest(Time.now.to_i.to_s)}@mailgun.org"
 
   helper ApplicationHelper
 
@@ -12,11 +13,26 @@ class UserMailer < ActionMailer::Base
 
   	@guests = Guest.where(bid_number: @bid_number.bid_number)
 
+    @recipients = []
+    @recipients << "shelterboard13@gmail.com"
   	@guests.each do |guest|
   		@guest = guest
   		if !@guest.email.blank?
-  			mail(to: @guest.email, subject: 'SHARE : 13th Annual Harvest Dinner And Silent Auction')
+        @recipients << @guest.email
+        emails = @recipients.map(&:inspect).join(',')
+  			mail(to: emails, subject: 'SHARE : 13th Annual Harvest Dinner And Silent Auction')
   		end
   	end
+  end
+
+
+  def send_test_email
+ #     RestClient.post "https://api:key-ffbd167914d61e782f37d774bcda046a"\
+ # "@api.mailgun.net/v3/mg.share.com/messages",
+ # :from => "shikha.sukumaran@gmail.com",
+ # :to => "shikha.sukumaran@gmail.com",
+ # :subject => "Hello",
+ # :text => "Testing some Mailgun awesomness!"
+
   end
 end

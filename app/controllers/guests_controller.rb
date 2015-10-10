@@ -30,7 +30,7 @@ class GuestsController < ApplicationController
       if !bid_number.blank?
         @bid_number_ob = BidNumber.where(bid_number: bid_number).first
         if !@bid_number_ob
-          @bid_number_ob = @event.bid_numbers.create(:bid_number => bid_number, :event_due_amount => 0, :event_due_pay_status => "NOT_PAID", :invoice_email_status => "NOT_SENT")
+          @bid_number_ob = @event.bid_numbers.create(:bid_number => bid_number, :event_due_amount => 0, :event_due_pay_status => "UNPAID", :invoice_email_status => "NOT_SENT")
           save_bid_num_result = @bid_number_ob.save
         end
       end
@@ -62,6 +62,8 @@ class GuestsController < ApplicationController
         end
       end
       update_guest_result = @guest.update(guest_params)
+      @guest.update_attributes(event_status: "ARRIVED")
+      @guest.save
     end # end of transaction
 
     if save_bid_num_result && update_guest_result

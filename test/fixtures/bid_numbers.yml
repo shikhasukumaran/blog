@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bid_number: 1
+  event_due_amount: 
+  precision: 
+  scale: 
+  event_due_pay_status: 
+  invoice_email_status: MyString
+
+two:
+  bid_number: 1
+  event_due_amount: 
+  precision: 
+  scale: 
+  event_due_pay_status: 
+  invoice_email_status: MyString

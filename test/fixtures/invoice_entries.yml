@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  auction_id: 1
+  bid_id: 1
+  bid_amount: 
+  precision: 
+  scale: 
+
+two:
+  auction_id: 1
+  bid_id: 1
+  bid_amount: 
+  precision: 
+  scale: 

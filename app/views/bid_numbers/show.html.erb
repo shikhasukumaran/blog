@@ -1,0 +1,72 @@
+<div class="container-fluid">
+	<%= render 'common/navbar' %>
+</div>
+
+<p>
+<%= link_to 'Back', event_bid_numbers_path(@event) %>
+</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3">
+      <p>
+        <strong>Bid Number:</strong>
+      </p>
+      <p>
+        <strong>Event Due Amount:</strong>
+      </p>
+      <p>
+        <strong>Event Due Pay Status:</strong>
+      </p>
+      <p>
+        <strong>Invoice Email Status:</strong>
+      </p>
+      <p>
+        <strong>Fee Adjustment:</strong>
+      </p>
+    </div>
+    <div class="col-sm-3">
+      <p>:<%= @bid_number.bid_number %></p>
+      <p>:<%= @bid_number.event_due_amount %> </p>
+      <p>:<%= @bid_number.event_due_pay_status %> </p>
+      <p>:<%= @bid_number.invoice_email_status %></p>
+      <p>:<%= @bid_number.fee_adjustment %></p>
+    </div>
+  <div class="col-sm-6">
+    <p><strong> Guests </strong></p>
+    <% @guests = get_guests_with_bid_number(@bid_number.bid_number) %>
+    <% @guests.each do |guest| %>
+      <p><%= link_to guest.first_name + " " +guest.last_name  , [guest.event, guest] %></p>
+    <% end %>
+  </div>
+  </div>
+</div>
+<ul class="nav nav-pills" role="tablist">
+  <li role="presentation" class="active">
+    <%= link_to 'Generate Invoice', new_bid_number_invoice_path(@bid_number), {:class => 'badge'}%> 
+  </li>
+</ul>
+<div class="table-responsive">
+ <table class="table table-striped">
+  <tr>
+    <th>Invoice Id</th>
+    <th>Version</th>
+    <th>Creation Date</th>
+    <th>Email Status</th>
+  </tr>
+
+  <% invoices_list_sorted = @bid_number.invoices %>
+  <% invoices_list_sorted.each do |invoice| %>
+    <tr>
+      <td><%= invoice.id %></td>
+      <td><%= invoice.version %></td>
+      <td><%= invoice.created_at %></td>
+      <td><%= invoice.status %></td>
+      <td><%= link_to 'Show' , [invoice.bid_number, invoice] %></td>
+      <td><%= link_to 'Edit' , edit_bid_number_invoice_path(invoice.bid_number, invoice)%></td>
+      <td><%= link_to 'Delete' , [invoice.bid_number, invoice] , method: :delete, data: {confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>
+</div>
+
+

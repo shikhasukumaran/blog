@@ -1,7 +1,7 @@
 <div class="container-fluid">
 	<%= render 'common/navbar' %>
 </div>
-
+<%= link_to 'Back', event_path(@event) %>
 <h1>Auctions</h1>
 
 <ul class="nav nav-pills" role="tablist">
@@ -10,30 +10,39 @@
 	</li>
 </ul>
 
-
 <div class="table-responsive">
  <table class="table table-striped">
 	<tr>
+		<th>Item Count</th>
 		<th>Name</th>
 		<th>Description</th>
 		<th>AuctionType</th>
 		<th>DonorName</th>
 		<th>FairMarketValue</th>
-		<th>can_multiple_bid_win</th>
 		<th>WinningBidNumber</th>
-		<th>Quantity</th>
+		<th>WinningGuest</th>
 		<th>Status</th>
 	</tr>
-	<% @auctions.each do |auction| %>
+	<% item_count = 0 %>
+	<% @auctions.each do |auction|  %>
+		<% item_count += 1%>
 		<tr>
+			<td><%= item_count %></td>
 			<td><%= auction.name %></td>
 			<td><%= auction.description %></td>
 			<td><%= auction.auction_type %></td>
-			<td><%= auction.donor_name %></td>
+			<% if !auction.donor_id.blank? %>
+				<td><%= guest_name_by_id(auction.donor_id) %></td>
+			<% else %>
+				<td></td>
+			<% end %>
 			<td><%= auction.fair_market_value %></td>
-			<td><%= auction.can_multiple_bid_win %></td>
 			<td><%= auction.winning_bid_number %></td>
-			<td><%= auction.quantity %></td>
+			<% if !auction.winning_bid_number.blank? %>
+				<td><%=  guest_name_by_bid_number(auction.winning_bid_number) %></td>
+			<% else %>
+				<td></td>
+			<% end %>
 			<td><%= auction.status %></td>
 			<td><%= link_to 'Show' , [auction.event, auction] %></td>
 			<td><%= link_to 'Edit' , edit_event_auction_path(auction.event, auction)%></td>
@@ -42,4 +51,3 @@
 	<% end %>
 </table>
 </div>
-<%= link_to 'Back', event_path(@event) %>

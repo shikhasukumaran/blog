@@ -2,15 +2,33 @@
 	<%= render 'common/navbar' %>
 </div>
 
+<%= link_to 'Back', events_path %>
 <h1>Event</h1>
 <div class="row">
-<div class="col-sm-6">
-  <ul class="list-group">
-    <li class="list-group-item"> <strong>Title : </strong> <%= @event.title %></li>
-    <li class="list-group-item"> <strong>Description : </strong> <%= @event.description %></li>
-    <li class="list-group-item"><%= link_to 'Auctions in the Event', (event_auctions_path(@event)) %></li>
-    <li class="list-group-item"><%= link_to 'Guests in the Event', (event_guests_path(@event)) %></li>
-  </ul>
-</div><!-- /.col-sm-4 -->
+	<div class="col-sm-6">
+	  <ul class="list-group">
+	    <li class="list-group-item"> <strong>Title : </strong> <%= @event.title %></li>
+	    <li class="list-group-item"> <strong>Description : </strong> <%= @event.description %></li>
+	    <li class="list-group-item"><%= link_to 'Auctions in the Event', (event_auctions_path(@event)) %></li>
+	    <li class="list-group-item"><%= link_to 'Guests in the Event', (event_guests_path(@event)) %></li>
+	    <li class="list-group-item"><%= link_to 'Bid Numbers in the Event', (event_bid_numbers_path(@event)) %></li>
+	  </ul>
+	</div><!-- /.col-sm-4 -->
 </div>
-<%= link_to 'Back', events_path %>
+<div class="row">
+	<div class="col-sm-3">
+		<ul class="nav nav-pills" role="tablist">
+		<li role="presentation" class="active">
+			<%= link_to 'Upload Auctions', upload_auctions_event_path(@event) ,{:class => 'badge'}%>
+		</li>
+		</ul>
+	</div>
+	<div class="col-sm-3">
+		<ul class="nav nav-pills" role="tablist">
+		<li role="presentation" class="active">
+			<%= link_to 'Upload Guests', upload_guests_event_path(@event) ,{:class => 'badge'}%>
+		</li>
+		</ul>
+	</div>
+</div>
+</div>

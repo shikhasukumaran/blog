@@ -2,11 +2,13 @@
 <div class="container-fluid">
 	<%= render 'common/navbar' %>
 </div>
+<%= render 'debug' %>
 
 <div class="container-fluid">
 	<%= link_to 'Back', event_auctions_path(@event) %>
 	<h1>Auction</h1>
 </div>
+
 <div class="container-fluid">
 	<div class="row">
 			<div class="col-md-4">
@@ -15,18 +17,26 @@
 						  <ul class="list-group">
 						  	<% if @auction.status && @auction.status == 'OPEN' %>
 						  		<li class="list-group-item" > <strong class="greenbgcolor">Status:  <%= @auction.status %></strong></li>
+						  		<li class="list-group-item" > <strong><%= link_to 'CLOSE THE AUCTION' , edit_event_auction_path(@auction.event, @auction)%></strong></li>
 						  	<% end %>
 						  	<% if @auction.status && @auction.status == 'CLOSED' %>
 						  		<li class="list-group-item"> <strong class="redbgcolor">Status:  <%= @auction.status %></strong></li>
+						  		<li class="list-group-item" > <strong><%= link_to 'REOPEN THE AUCTION' , edit_event_auction_path(@auction.event, @auction)%></strong></li>
 						  	<% end %>
 						    <li class="list-group-item"> <strong>Name : </strong> <%= @auction.name %></li>
 						    <li class="list-group-item"> <strong>Description : </strong> <%= @auction.description %></li>
+						    <li class="list-group-item"> <strong>Auction Type : </strong> <%= @auction.auction_type %></li>
+						    <li class="list-group-item"> <strong>Fair Market Value : </strong> <%= @auction.fair_market_value %></li>
 						  </ul>
 					</tr>
 				</table>
 		</div>
 		<%= form_for ([@event, @auction]),:html => {:class => "form-horizontal center"} do |f|%>
 			<div class="col-md-8">
+				<div> MERCHANDISE : Quantity Purchased will only be accepted for Merchandise type auctions</div>
+				<div>DESSERT_DASH : For Dessert Dash only enter the bids from the winning table.</div>
+				<div>SILENT_AUCTION : Only one bid will be winner.</div>
+				<div>FUND A NEED : All the bids entered are winner.</div>
 				<div class="table-responsive">
 					<button id="saveBids">Save Bids</button> 
 					 <table id="bidsTable" class="table table-striped">
@@ -36,6 +46,7 @@
 							<th> - </th>
 							<th>Bid Number</th>
 							<th>Bid Amount</th>
+							<th>Quantity Purchased</th>
 							<th>Winner</th>
 						</tr>
 						<% bid_count = 0%>
@@ -44,15 +55,17 @@
 							<% rowId = "bid_row_id_"+bid_count.to_s %>
 							<% remove_bid_row_id = "remove_bid_row_id"+bid_count.to_s %>
 								<tr id=<%rowId%>>
-									<td><%= link_to '-' , [bid.auction, bid] , method: :delete, data: {confirm: 'Are you sure?' } %></td>
-									<td><input value=<%= bid.bid_number %> disabled></input></td>
-									<td><input value=<%= bid.bid_amount %> disabled></input></td>
+									<td><%= link_to '-' , [bid.auction, bid] , method: :delete, data: {confirm: 'Are you sure? Auction should be open for deleting bids' } %></td>
+									<td><input disabled value=<%= bid.bid_number %> ></input></td>
+									<td><input disabled value=<%= bid.bid_amount %> ></input></td>
+									<td><input disabled value=<%= bid.quantity_purchased || "" %> ></input></td>
 									<td><%= bid.is_winner %></td>
 								</tr>
 						<% end %>
 					</tbody>
 					</table>
 					<input id="bid_count" name="auction[bid_count]" type="hidden" value=<%= bid_count %>></input>
+					<input id="auction_type_hidden" name="auction_type_hidden" type="hidden" value=<%= @auction.auction_type %>></input>
 					<input id="bid_update" name="auction[bid_update]" type="hidden" value="TRUE"></input>
 					<% if @auction.status && @auction.status == 'OPEN' %>
 					<a id="addBid"> + Add Bid</a>

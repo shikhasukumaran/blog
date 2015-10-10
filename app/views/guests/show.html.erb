@@ -1,50 +1,95 @@
 <div class="container-fluid">
 	<%= render 'common/navbar' %>
 </div>
+<p>
+<%= link_to 'Back', event_guests_path(@event) %>
+</p>
+<div class="greenbgcolor">
+    <% guests_with_bid_number = get_guests_by_bid_number(@guest.bid_number) %>  
+      <% if guests_with_bid_number.size > 0 %>
+      <p><strong>Guests with same Bid Number</strong></p>
+      <% guests_with_bid_number.each do |guest_with_bid_number|%>
+        <p> <%= guest_with_bid_number.first_name + "  " + guest_with_bid_number.last_name %></p>
+      <% end %>
+    <% end %>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3">
+    <p>
+      <strong>First Name:</strong>
+    </p>
+    <p>
+      <strong>Middle Name:</strong>
+    </p>
+    <p>
+      <strong>Last Name:</strong>
+    </p>
+    <p>
+      <strong>Guest of:</strong>
+    </p>
+    <p>
+      <strong>Billing Address Line1:</strong>
+    </p>
+    <p>
+      <strong>Billing Address Line2:</strong>
+    </p>
+    <p>
+      <strong>City:</strong>
+    </p>
+    <p>
+      <strong>State:</strong>
+    </p>
+    <p>
+      <strong>Zip Code:</strong>
+    </p>
+    <p>
+      <strong>Email:</strong>
+    </p>
+    <p>
+      <strong>Phone Number:</strong>
+    </p>
+    <p>
+      <strong>Bid Number:</strong>
+    </p>
+    <p>
+      <strong>Dinner Tickets:</strong>
+    </p>
+    <p>
+      <strong>Registration Fee:</strong>
+    </p>
+    <p>
+      <strong>Registration Fee Status:</strong>
+    </p>
+    <p>
+      <strong>Table Number:</strong>
+    </p>
+    <p>
+      <strong>Event Status:</strong>
+    </p>
+    <p>
+    </div>
+    <div class="col-sm-6">
+      <p>:<%= @guest.first_name %></p>
+      <p>:<%= @guest.middle_name %> </p>
+      <p>:<%= @guest.last_name %> </p>
+      <p>:<%= @guest.guest_of %> </p>
+      <p>:<%= @guest.billing_address_1 %></p>
+      <p>:<%= @guest.billing_address_2 %></p>
+      <p>:<%= @guest.city %> </p>
+      <p>:<%= @guest.state %> </p>
+      <p>:<%= @guest.zip_code %> </p>
+      <p>:<%= @guest.email %> </p>
+      <p>:<%= @guest.phone_number%></p>
+      <p>:<%= @guest.bid_number%></p>
+      <p>:<%= @guest.dinner_tickets %></p>
+      <p>:<%= @guest.registration_fee %> </p>
+      <p>:<%= @guest.registration_status %> </p>
+      <p>:<%= @guest.table_number %></p>
+      <p>:<%= @guest.event_status %> </p>
+    </div>
+  </div>
+</div>
 
-<p>
-  <strong>First Name:</strong>
-  <%= @guest.first_name %>
-</p>
- 
-<p>
-  <strong>Middle Name:</strong>
-  <%= @guest.middle_name %>
-</p>
-<p>
-  <strong>Last Name:</strong>
-  <%= @guest.last_name %>
-</p>
-<p>
-  <strong>Billing Address Line1:</strong>
-  <%= @guest.billing_address_1 %>
-</p>
-<p>
-  <strong>Billing Address Line2:</strong>
-  <%= @guest.billing_address_1 %>
-</p>
-<p>
-  <strong>Email:</strong>
-  <%= @guest.email %>
-</p>
-<p>
-  <strong>Phone Number:</strong>
-  <%= @guest.phone_number%>
-</p>
-<p>
-  <strong>Dinner Tickets:</strong>
-  <%= @guest.dinner_tickets %>
-</p>
-<p>
-  <strong>Table Number:</strong>
-  <%= @guest.table_number %>
-</p>
-<p>
-  <strong>Registration:</strong>
-  <%= @guest.registration %>
-</p>
-<p>
-  <strong>Registration:</strong>
-  <%= @guest.status %>
-</p>
-<%= link_to 'Back', guests_path %>
+
+

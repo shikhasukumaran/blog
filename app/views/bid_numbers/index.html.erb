@@ -1,0 +1,42 @@
+<div class="container-fluid">
+	<%= render 'common/navbar' %>
+</div>
+<%= link_to 'Back', event_path(@event) %>
+<h1>Bid Numbers</h1>
+
+<ul class="nav nav-pills" role="tablist">
+	<li role="presentation" class="active">
+		<%= link_to 'New Bid Number', new_event_bid_number_path , {:class => 'badge'}%>
+	</li>
+</ul>
+
+
+<div class="table-responsive">
+ <table class="table table-striped">
+	<tr>
+		<th>Bid Number</th>
+		<th>Event Due Amount</th>
+		<th>Event Due Pay Status</th>
+		<th>Invoice Email Status</th>
+		<th>Fee Adjustment</th>
+	</tr>
+	<% @bid_numbers.each do |bid_number|  %>
+
+		<tr>
+			<td><%= bid_number.bid_number %></td>
+			<td><%= bid_number.event_due_amount %></td>
+			<td><%= bid_number.event_due_pay_status %></td>
+			<td><%= bid_number.invoice_email_status %></td>
+			<td><%= bid_number.fee_adjustment %></td>
+			<td><%= link_to 'Show' , [bid_number.event, bid_number] %></td>
+			<td><%= link_to 'Edit' , edit_event_bid_number_path(bid_number.event, bid_number)%></td>
+			<td><%= link_to 'Delete' , [bid_number.event, bid_number] , method: :delete, data: {confirm: 'Are you sure?' } %></td>
+		</tr>
+		<% @guests = get_guests_with_bid_number(bid_number.bid_number) %>
+		<% @guests.each do |guest| %>
+			<tr><td><%= guest.first_name + " " +guest.last_name %></td>
+			<td><%= link_to 'Show' , [guest.event, guest] %></td></tr>
+		<% end %>
+	<% end %>
+</table>
+</div>

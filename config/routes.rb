@@ -23,17 +23,25 @@ Rails.application.routes.draw do
 	end
 
   resources :events do
+    member do
+      get 'upload_auctions'
+      get 'upload_guests'
+    end
     resources :auctions
     resources :guests
+    resources :bid_numbers
   end
 
+  resources :guests
+  
   resources :auctions do
     resources :bids
   end
 
-  resources :guests
-  resources :invoices
-  
+  resources :bid_numbers do
+    resources :invoices 
+  end
+
   # Example resource route with options:
   #   resources :products do
   #     member do

@@ -1,4 +1,4 @@
-<%= form_for  @guest ,:html => {:class => "form-horizontal center"} do |f|%>
+<%= form_for ([@event, @guest]),:html => {:class => "form-horizontal center"} do |f|%>
 
 	<% if @guest && @guest.errors.any? %>
 		<div id="error_explanation">
@@ -31,6 +31,12 @@
 		</div>
 	</div>
 	<div class="form-group">
+		<%= f.label :guest_of, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :guest_of %>
+		</div>
+	</div>
+	<div class="form-group">
 		<%= f.label :billing_address_1, class: "col-md-4 control-label"%>
 		<div class="col-md-8">
 		<%= f.text_field :billing_address_1 %>
@@ -40,6 +46,24 @@
 		<%= f.label :billing_address_2, class: "col-md-4 control-label"%>
 		<div class="col-md-8">
 		<%= f.text_field :billing_address_2 %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :city, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :city %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :state, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :state %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :zip_code, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :zip_code %>
 		</div>
 	</div>
 	<div class="form-group">
@@ -60,19 +84,67 @@
 		<%= f.text_field :bid_number %>
 		</div>
 	</div>
-		<div class="form-group">
+	<div class="form-group">
 		<%= f.label :dinner_tickets, class: "col-md-4 control-label"%>
 		<div class="col-md-8">
 		<%= f.text_field :dinner_tickets %>
 		</div>
 	</div>
-	</div>
-		<div class="form-group">
+	<div class="form-group">
 		<%= f.label :table_number, class: "col-md-4 control-label"%>
 		<div class="col-md-8">
 		<%= f.text_field :table_number %>
 		</div>
 	</div>
+	<div class="form-group">
+		<%= f.label :registration_fee, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+		<%= f.text_field :registration_fee %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :registration_status, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+			<%= f.select(:registration_status) do %>
+	 			 <% [['PAID','PAID'],['NOT_PAID','NOT_PAID']].each do |c| -%>
+		 			 	<% if @guest && @guest.registration_status == c.first %>
+		    		 		<%= content_tag(:option, c.first, value: c.last, selected: true) %>
+		    		 	<% else %>
+		    		 		<%= content_tag(:option, c.first, value: c.last) %>
+		    		 	<% end %>
+				 <% end %>
+			<% end %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :registration_fee_mode, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+			<%= f.select(:registration_fee_mode) do %>
+	 			 <% [['ONLINE','ONLINE'],['CASH','CASH'],['CHEQUE','CHEQUE']].each do |c| -%>
+		 			 	<% if @guest && @guest.registration_fee_mode == c.first %>
+		    		 		<%= content_tag(:option, c.first, value: c.last, selected: true) %>
+		    		 	<% else %>
+		    		 		<%= content_tag(:option, c.first, value: c.last) %>
+		    		 	<% end %>
+				 <% end %>
+			<% end %>
+		</div>
+	</div>
+	<div class="form-group">
+		<%= f.label :event_status, class: "col-md-4 control-label"%>
+		<div class="col-md-8">
+			<%= f.select(:event_status) do %>
+	 			 <% [['REGISTERED','REGISTERED'],['ARRIVED','ARRIVED'],['CHECKED_OUT','CHECKED_OUT']].each do |c| -%>
+		 			 	<% if @guest && @guest.event_status == c.first %>
+		    		 		<%= content_tag(:option, c.first, value: c.last, selected: true) %>
+		    		 	<% else %>
+		    		 		<%= content_tag(:option, c.first, value: c.last) %>
+		    		 	<% end %>
+				 <% end %>
+			<% end %>
+		</div>
+	</div>
+
 	<div class="form-group">
 		<div class="col-md-8">
 			<%= f.submit "Submit", class: "btn btn-default btn-primary"%>

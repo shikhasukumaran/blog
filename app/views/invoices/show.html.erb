@@ -1,0 +1,157 @@
+<div class="container-fluid">
+	<%= render 'common/navbar' %>
+</div>
+
+<p>
+<%= link_to 'Back', bid_number_path(@bid_number) %>
+</p>
+
+<div class="container-fluid">
+<div class="row">
+  <div class="col-sm-3">
+  <p> Bidder No : <%= @bid_number.bid_number %></p>
+  <p> Fee adustment : <%= @bid_number.fee_adjustment %></p>
+  <p> Status : <%= @invoice.status %></p>
+  <p> Invoice id  : <%= @invoice.id %></p>
+  <p> Version : <%= @invoice.version %></p>
+  <p> Created At : <%= @invoice.created_at %></p>
+  </div>
+
+  <div class="col-sm-6">
+      <p><strong> Guests </strong></p>
+      <% guests_with_registration = [] %>
+      <% @guests = get_guests_with_bid_number(@bid_number.bid_number) %>
+      <% @guests.each do |guest| %>
+        <p><%= link_to guest.first_name + " " +guest.last_name  , [guest.event, guest] %></p>
+        <% if !guest.dinner_tickets.blank? 
+            guests_with_registration << guest
+           end        
+         end 
+      %>
+  </div>
+</div>
+</div>
+<% total_purchase = 0 %>
+<% total_charity_cont = 0 %>
+<% total_amount_due = 0 %>
+<% donated_auctions = [] %>
+<% @guests.each do |guest| 
+    donated_auctions = get_donation_by_guest_id(guest.id)
+   end 
+%>
+</div>
+<div class="table-responsive">
+ <table class="table table-striped">
+  <tr>
+    <th>Type</th>
+    <th>Auction Name</th>
+    <th>Quantity Purchased</th>
+    <th>Purchase Price</th>
+    <th>Fair Market Value</th>
+    <th>Charitable Contribution</th>
+  </tr>
+  <!-- Donation part of Invoice -->
+  <% if !donated_auctions.blank? %>
+    <tr><td>Donation<td></tr>
+    <% donated_auctions.each do |da| %>
+      <tr>
+        <td></td>
+        <td><%= da.name %></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><%= da.fair_market_value %></td>
+      </tr>
+      <% total_charity_cont += da.fair_market_value %>
+    <%end%>
+  <%end%>
+  <!-- TODO Registration Part of the Invoice -->
+  <%
+    if guests_with_registration.size > 0
+  %>
+      <tr><td>Registration<td></tr>
+  <%
+      guests_with_registration.each do |guest_with_registration| 
+  %>
+        <tr>
+          <td>1</td>
+          <td></td>
+          <td><%= guest_with_registration.dinner_tickets %></td>
+          <td>$<%= guest_with_registration.registration_fee %></td>
+          <td>$<%= guest_with_registration.registration_fee %></td>
+          <td>$0</td>
+        </tr>
+  <%
+      total_purchase += guest_with_registration.registration_fee
+      end
+    end
+  %>
+
+  <!-- Item Purchase | Merchandise | Fund A Need-->
+  <%
+    invoice_items_by_auction_type = get_invoice_entries_by_auction_type(@invoice.id)
+    if !invoice_items_by_auction_type.blank? 
+      auction_types = invoice_items_by_auction_type.keys
+
+      auction_types.each do |auction_type| 
+        invoice_items = invoice_items_by_auction_type[auction_type]
+  %>
+        <tr><td><%= get_auction_type_heading(auction_type) %></td></tr>
+  <%
+        item_count = 0
+        invoice_items.each do |invoice_item|
+          auction = get_auction_by_id(invoice_item.auction_id)
+          item_count += 1
+          total_purchase += invoice_item.bid_amount 
+          fair_market_value_unit = auction.fair_market_value ? auction.fair_market_value : 0
+          fair_market_value = (fair_market_value_unit * invoice_item.quantity_purchased)
+          charitable_cont = invoice_item.bid_amount - fair_market_value
+          total_amount_due += invoice_item.bid_amount 
+          total_charity_cont += charitable_cont 
+  %>  
+          <tr>
+              <td><%= item_count %></td>
+              <td><%= auction.name%></td>
+              <td><%= invoice_item.quantity_purchased %></td>
+              <td>$<%= invoice_item.bid_amount %></td>
+              <td>$<%= fair_market_value %></td>
+              <td>$<%= charitable_cont %></td>
+          </tr>
+          <% end %>
+      <% end %>
+  <% end %>
+  <tr>
+    <td></td> <!-- Type -->
+    <td></td>
+    <td>Overall Totals</td> <!-- Auction Name -->
+    <td>$<%= total_purchase %></td> <!-- Total Purchase Price -->
+    <td></td> <!-- Total Purchase Price -->
+    <td>$<%= total_charity_cont%></td> <!-- Total Charitable Contribution -->
+  </tr>
+  <tr>
+    <td></td> <!-- Type -->
+    <td></td>
+    <td><strong>Total Purchase</strong></td> <!-- Auction Name -->
+    <td>$<%= total_purchase %></td> <!-- Total Purchase Price -->
+    <td>$<strong>Total Charitable Cont</strong></td> <!-- Total Purchase Price -->
+    <td>$<%= total_charity_cont%></td> <!-- Total Charitable Contribution -->
+  </tr>
+  <!-- Totals part of the invoice, Change color based on status if paid or not -->
+  <tr><td></td></tr>
+  <tr><td></td></tr>
+  <tr class="greenbgcolor">
+    <td></td>
+    <td></td>
+    <td><strong>Total Due</strong></td>
+    <td><strong>$<%= total_amount_due %></strong></td>
+    <td></td>
+  </tr>
+  <tr class="greenbgcolor">
+    <td></td>
+    <td></td>
+    <td><strong>Total Due After Fee Adjustment</strong></td>
+    <td><strong>$<%= total_amount_due - float_or_zero(@bid_number.fee_adjustment) %></strong></td>
+    <td></td>
+  </tr>
+</table>
+</div>

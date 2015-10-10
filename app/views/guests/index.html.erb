@@ -1,42 +1,55 @@
 <div class="container-fluid">
 	<%= render 'common/navbar' %>
 </div>
-
+<%= link_to 'Back', event_path(@event) %>
 <h1>Guests</h1>
-<%= link_to 'New Guest', new_guest_path%>
+<ul class="nav nav-pills" role="tablist">
+	<li role="presentation" class="active">
+		<%= link_to 'New Guest', new_event_guest_path , {:class => 'badge'}%>
+	</li>
+</ul>
+
 <div class="table-responsive">
  <table class="table table-striped">
 	<tr>
+		<th>Guest Count</tn>
 		<th>First Name</th>
-		<th>Middle Name</th>
 		<th>Last Name</th>
-		<th>Billing Address Line1</th>
-		<th>Billing Address Line2</th>
+		<th>Guest Of</th>
 		<th>Email</th>
 		<th>Phone Number</th>
 		<th>Bid Number</th>
 		<th>Dinner Tickets</th>
+		<th>Registration Fee Amount</th>
+		<th>Registration Fee Status</th>
 		<th>Table Number</th>
-		<th>Registration</th>
-		<th>Status</th>
+		<th>Event Status</th>
+		<th>Show</th><th>Edit</th><th>Delete</th>
 	</tr>
+	<% guest_count = 0 %>
 	<% @guests.each do |guest| %>
+	<% guest_count += 1%>
 		<tr>
+			<td><%= guest_count %></td>
 			<td><%= guest.first_name %></td>
-			<td><%= guest.middle_name %></td>
 			<td><%= guest.last_name %></td>
-			<td><%= guest.billing_address_1 %></td>
-			<td><%= guest.billing_address_2 %></td>
+			<td><%= guest.guest_of %></td>
 			<td><%= guest.email %></td>
 			<td><%= guest.phone_number %></td>
-			<td><%= guest.bid_number %></td>
+			<% bid_number_ob = get_bid_number_by_number_value(guest.bid_number) %>
+			<% if bid_number_ob.blank? %>
+				<td><%= guest.bid_number %></td>
+			<% else %>
+				<td><%= link_to guest.bid_number , [bid_number_ob.event, bid_number_ob] %></td>
+			<% end %>
 			<td><%= guest.dinner_tickets %></td>
+			<td><%= guest.registration_fee%></td>
+			<td><%= guest.registration_status%></td>
 			<td><%= guest.table_number %></td>
-			<td><%= guest.registration %></td>
-			<td><%= guest.status %></td>
-			<td><%= link_to 'Show' , guest_path(guest) %></td>
-			<td><%= link_to 'Edit' , edit_guest_path(guest)%></td>
-			<td><%= link_to 'Delete' , guest_path(guest) , method: :delete, data: {confirm: 'Are you sure?' } %></td>
+			<td><%= guest.event_status%></td>
+			<td><%= link_to 'Show' , [guest.event, guest] %></td>
+			<td><%= link_to 'Edit' , edit_event_guest_path(guest.event, guest)%></td>
+			<td><%= link_to 'Delete' , [guest.event, guest] , method: :delete, data: {confirm: 'Are you sure?' } %></td>
 		</tr>
 	<% end %>
 </table>
